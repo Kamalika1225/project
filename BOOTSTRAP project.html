@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animated Task Manager 🌈</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  body {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .container {
+    max-width: 600px;
+  }
+  .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .list-group-item {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: #ffe3e3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  .list-group-item.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+    background: #c8ffc8 !important;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border: none;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+  }
+  #taskInput {
+    border-radius: 50px;
+    padding: 15px;
+  }
+  .delete-btn {
+    color: #ff4d4d;
+    transition: all 0.3s;
+  }
+  .delete-btn:hover {
+    transform: rotate(15deg) scale(1.2);
+  }
+  .toggle-btn {
+    color: #28a745;
+    transition: all 0.3s;
+  }
+  .toggle-btn:hover {
+    transform: scale(1.3) rotate(-10deg);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center mb-4 text-white">🌈 Animated Task Manager</h1>
+
+  <!-- Add Task -->
+  <div class="card mb-4 p-3">
+    <div class="input-group">
+      <input type="text" id="taskInput" class="form-control" placeholder="Add a new task...">
+      <button class="btn btn-primary" id="addBtn">Add Task</button>
+    </div>
+  </div>
+
+  <!-- Filter Tasks -->
+  <div class="d-flex justify-content-between mb-3">
+    <div>
+      <button class="btn btn-outline-light btn-sm filter-btn" data-filter="all">All</button>
+      <button class="btn btn-outline-light btn-sm filter-btn" data-filter="active">Active</button>
+      <button class="btn btn-outline-light btn-sm filter-btn" data-filter="completed">Completed</button>
+    </div>
+    <button class="btn btn-outline-light btn-sm" id="clearAll">Clear All</button>
+  </div>
+
+  <!-- Task List -->
+  <ul class="list-group" id="taskList"></ul>
+</div>
+
+<script>
+  const taskInput = document.getElementById('taskInput');
+  const addBtn = document.getElementById('addBtn');
+  const taskList = document.getElementById('taskList');
+  const clearAll = document.getElementById('clearAll');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function renderTasks(filter='all') {
+    taskList.innerHTML = '';
+    tasks.forEach((task, index) => {
+      if(filter==='active' && task.completed) return;
+      if(filter==='completed' && !task.completed) return;
+
+      const li = document.createElement('li');
+      li.className = 'list-group-item show';
+      if(task.completed) li.classList.add('completed');
+
+      li.innerHTML = `
+        <span>${task.name}</span>
+        <div>
+          <button class="btn toggle-btn"><i class="bi ${task.completed ? 'bi-arrow-counterclockwise' : 'bi-check-lg'}"></i></button>
+          <button class="btn delete-btn"><i class="bi bi-trash"></i></button>
+        </div>
+      `;
+
+      // Toggle complete with animation
+      li.querySelector('.toggle-btn').addEventListener('click', () => {
+        li.classList.add('animate__animated', 'animate__flip');
+        setTimeout(() => {
+          tasks[index].completed = !tasks[index].completed;
+          saveTasks();
+          renderTasks(filter);
+        }, 300);
+      });
+
+      // Delete with fade
+      li.querySelector('.delete-btn').addEventListener('click', () => {
+        li.style.transition = 'all 0.4s';
+        li.style.opacity = '0';
+        li.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          tasks.splice(index, 1);
+          saveTasks();
+          renderTasks(filter);
+        }, 400);
+      });
+
+      taskList.appendChild(li);
+    });
+  }
+
+  // Add task
+  addBtn.addEventListener('click', () => {
+    const taskName = taskInput.value.trim();
+    if(taskName){
+      tasks.push({name: taskName, completed: false});
+      saveTasks();
+      renderTasks();
+      taskInput.value = '';
+    }
+  });
+
+  taskInput.addEventListener('keypress', e => { if(e.key==='Enter') addBtn.click(); });
+  clearAll.addEventListener('click', () => { tasks=[]; saveTasks(); renderTasks(); });
+  filterBtns.forEach(btn => { btn.addEventListener('click', ()=>renderTasks(btn.dataset.filter)); });
+
+  renderTasks();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🌟 AngularJS Reward Quiz</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .card {
+    border-radius: 20px;
+    padding: 25px;
+    width: 450px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.95);
+  }
+  .btn-option {
+    width: 100%;
+    margin: 5px 0;
+    transition: transform 0.2s;
+  }
+  .btn-option:hover {
+    transform: scale(1.05);
+  }
+  .correct { background-color: #28a745 !important; color: #fff; }
+  .incorrect { background-color: #dc3545 !important; color: #fff; }
+  .progress { height: 20px; border-radius: 10px; }
+</style>
+</head>
+<body ng-controller="QuizController">
+
+<div class="card">
+  <h2 class="mb-3">🎉 AngularJS Reward Quiz</h2>
+
+  <div ng-if="!quizFinished">
+    <p>Question {{currentIndex + 1}} / {{questions.length}}</p>
+    <div class="progress mb-3">
+      <div class="progress-bar bg-info" role="progressbar" style="width: {{completionPercentage()}}%">
+        {{completionPercentage()}}%
+      </div>
+    </div>
+
+    <h5>{{questions[currentIndex].question}}</h5>
+
+    <button class="btn btn-outline-primary btn-option" ng-repeat="opt in questions[currentIndex].options"
+            ng-click="answer(opt)" ng-class="optClass(opt)">
+      {{opt}}
+    </button>
+  </div>
+
+  <div ng-if="quizFinished">
+    <h4>🎉 Quiz Completed!</h4>
+    <p>Your Score: {{score}} / {{questions.length}}</p>
+    <p>Total Points: {{score * pointsPerQuestion}}</p>
+    <div ng-if="score === questions.length" class="mt-2">
+      🎊 Perfect Score! You earned maximum rewards! 🎊
+    </div>
+    <button class="btn btn-success mt-3" ng-click="restart()">Restart Quiz</button>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+<script>
+  angular.module('quizApp', [])
+  .controller('QuizController', ['$scope', '$timeout', function($scope, $timeout) {
+
+    $scope.pointsPerQuestion = 10;
+    $scope.questions = [
+      {question:"What is the capital of France?", options:["Paris","Rome","Berlin","Madrid"], answer:"Paris"},
+      {question:"What is 5 + 7?", options:["10","11","12","13"], answer:"12"},
+      {question:"Which language runs in the browser?", options:["Python","C++","JavaScript","Java"], answer:"JavaScript"},
+      {question:"AngularJS is developed by?", options:["Google","Facebook","Microsoft","Amazon"], answer:"Google"},
+      {question:"What does CSS stand for?", options:["Cascading Style Sheets","Computer Style Sheets","Creative Style System","Colorful Style Sheets"], answer:"Cascading Style Sheets"},
+      {question:"Which planet is known as Red Planet?", options:["Earth","Mars","Jupiter","Venus"], answer:"Mars"},
+      {question:"Who wrote 'Romeo and Juliet'?", options:["Shakespeare","Tolstoy","Hemingway","Dickens"], answer:"Shakespeare"},
+      {question:"Which element has the chemical symbol O?", options:["Oxygen","Gold","Iron","Silver"], answer:"Oxygen"},
+      {question:"What is the square root of 144?", options:["10","11","12","13"], answer:"12"},
+      {question:"HTML stands for?", options:["Hyper Text Markup Language","Hyperlinks Text Markup Language","Home Tool Markup Language","Hyper Tool Multi Language"], answer:"Hyper Text Markup Language"}
+    ];
+
+    $scope.currentIndex = 0;
+    $scope.score = 0;
+    $scope.quizFinished = false;
+    $scope.selected = null;
+
+    $scope.answer = function(option){
+      $scope.selected = option;
+      if(option === $scope.questions[$scope.currentIndex].answer){
+        $scope.score++;
+      }
+      // Short delay for feedback animation
+      $timeout(function(){
+        $scope.currentIndex++;
+        $scope.selected = null;
+        if($scope.currentIndex >= $scope.questions.length){
+          $scope.quizFinished = true;
+        }
+      }, 500);
+    };
+
+    $scope.optClass = function(option){
+      if($scope.selected === null) return '';
+      if(option === $scope.questions[$scope.currentIndex].answer) return 'correct';
+      if(option === $scope.selected) return 'incorrect';
+      return '';
+    };
+
+    $scope.completionPercentage = function(){
+      return Math.round(($scope.currentIndex / $scope.questions.length) * 100);
+    };
+
+    $scope.restart = function(){
+      $scope.currentIndex = 0;
+      $scope.score = 0;
+      $scope.quizFinished = false;
+    };
+  }]);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

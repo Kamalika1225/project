@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kamalika Arumugam - Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: linear-gradient(90deg, #ff9966, #ff5e62);
+      padding: 20px;
+      text-align: center;
+      color: white;
+      animation: fadeInDown 1s ease;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #ffeaa7;
+    }
+    section {
+      padding: 50px 20px;
+      text-align: center;
+      animation: fadeInUp 1.5s ease;
+    }
+    h2 {
+      color: #2c3e50;
+      border-bottom: 3px solid #ff5e62;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+    img {
+      border-radius: 50%;
+      margin: 20px 0;
+      border: 5px solid #ff9966;
+      animation: zoomIn 1.2s ease;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #ffeaa7;
+      margin: 10px auto;
+      padding: 12px;
+      border-radius: 12px;
+      width: 60%;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    ul li:hover {
+      background: #fab1a0;
+      transform: scale(1.05);
+    }
+    article {
+      background: #fff;
+      margin: 15px auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 70%;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    article:hover {
+      transform: translateY(-5px);
+      background: #f9f9f9;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 60%;
+      margin: 0 auto;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      background: linear-gradient(90deg, #ff9966, #ff5e62);
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    input[type="submit"]:hover {
+      background: #ff5e62;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+      transition: 0.3s;
+    }
+    .linkedin {
+      background: #0077b5;
+    }
+    .linkedin:hover {
+      background: #005582;
+    }
+    .github {
+      background: #333;
+    }
+    .github:hover {
+      background: #111;
+    }
+    footer {
+      background: #2c3e50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    /* Animations */
+    @keyframes fadeInDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes zoomIn {
+      from {transform: scale(0.8);}
+      to {transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <h1>🌟 Kamalika Arumugam 🌟</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#softskills">Soft Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h2>Welcome</h2>
+    <img src="https://via.placeholder.com/150" alt="Profile Picture">
+    <p>Hello! I am <strong>Kamalika Arumugam</strong>, a passionate <span style="color:#ff5e62;">Computer Science with AI student</span> exploring web development and technology. 🚀</p>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" style="background:#f9f9f9;">
+    <h2>🎓 Education</h2>
+    <ul>
+      <li>B.Sc. Computer Science with AI - SDNB Vaishnav College (2024 - 2027)</li>
+      <li>12th Grade - Our Lady's Matriculation Higher Secondary School (2022 - 2024) – 80%</li>
+      <li>10th Grade - Our Lady's Matriculation Higher Secondary School (2021 - 2022) – 89%</li>
+    </ul>
+  </section>
+
+  <!-- Technical Skills Section -->
+  <section id="skills">
+    <h2>🛠 Technical Skills</h2>
+    <ul>
+      <li>🌐 HTML, CSS, JavaScript</li>
+      <li>⚡ Bootstrap, AngularJS</li>
+      <li>☕ Java, Python (Basics)</li>
+      <li>🤖 Artificial Intelligence (Fundamentals)</li>
+    </ul>
+  </section>
+
+  <!-- Soft Skills Section -->
+  <section id="softskills" style="background:#f9f9f9;">
+    <h2>✨ Soft Skills</h2>
+    <ul>
+      <li>💡 Problem Solving</li>
+      <li>🤝 Teamwork & Collaboration</li>
+      <li>🗣 Communication Skills</li>
+      <li>⏰ Time Management</li>
+      <li>🎯 Leadership</li>
+    </ul>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <h2>📂 Projects</h2>
+    <article>
+      <h3>🛒 E-Commerce Website</h3>
+      <p>A responsive online shopping website with product catalog and cart functionality.</p>
+    </article>
+    <article>
+      <h3>☁ Weather App</h3>
+      <p>A web application that displays real-time weather details using APIs.</p>
+    </article>
+    <article>
+      <h3>🎓 Student Management System</h3>
+      <p>A system to manage student records with add, update, and delete features.</p>
+    </article>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" style="background:#f9f9f9;">
+    <h2>📩 Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name">
+      <input type="email" placeholder="Your Email">
+      <textarea placeholder="Your Message"></textarea>
+      <input type="submit" value="Send Message">
+    </form>
+    <p style="margin-top:15px;">📧 Email: <a href="mailto:akamalika1225@gmail.com">akamalika1225@gmail.com</a></p>
+
+    <!-- Social Links -->
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/kamalika-arumugam-4586b4321?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="linkedin">💼 LinkedIn</a>
+      <a href="https://github.com/Kamalika1225" target="_blank" class="github">🐙 GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kamalika Arumugam. Made with ❤️ and HTML.</p>
+  </footer>
+</body>
+</html>

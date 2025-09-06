@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>World Clock — Neon</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg1:#1f4037; --bg2:#99f2c8;
+      --neon:#00ffcc; --accent:#44ffd1;
+      --card:#0b0f14; --text:#e8fffb; --muted:#9ee7d7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100svh;
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      font-family: "Segoe UI", system-ui, Arial, sans-serif; color:var(--text);
+    }
+    .wrap{
+      width:min(720px,92vw);
+      background: radial-gradient(120% 120% at 10% 10%, #0c1d18 0%, #091115 45%, #060a0d 100%);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:22px;
+      padding:28px 24px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 40px rgba(0,255,204,.15) inset;
+      animation: glow 2.2s ease-in-out infinite alternate;
+    }
+    header{
+      display:flex; flex-wrap:wrap; gap:12px 16px; align-items:center; justify-content:space-between; margin-bottom:18px;
+    }
+    .brand{
+      font-weight:700; letter-spacing:.4px; display:flex; align-items:center; gap:10px;
+    }
+    .dot{width:10px; height:10px; border-radius:50%; background:var(--neon); box-shadow:0 0 12px var(--neon),0 0 24px var(--neon)}
+    .controls{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    label{font-size:.9rem; color:var(--muted)}
+    select, button{
+      appearance:none; border:none; outline:none;
+      background:#0e141a; color:var(--text);
+      border:1px solid rgba(255,255,255,.12);
+      padding:10px 12px; border-radius:10px; font-size:.95rem;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .2s;
+    }
+    select:hover, button:hover{border-color:var(--neon); box-shadow:0 0 0 3px rgba(0,255,204,.12)}
+    button{cursor:pointer}
+    .clock{
+      display:grid; gap:10px; justify-items:center; text-align:center; margin-top:8px;
+    }
+    .time{
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(44px, 10vw, 96px);
+      line-height:1;
+      color:var(--neon);
+      text-shadow: 0 0 12px var(--neon), 0 0 26px var(--neon), 0 0 52px rgba(0,255,204,.7);
+      letter-spacing: .06em;
+    }
+    .date, .zone{
+      color:var(--muted);
+      font-size: clamp(14px, 2.6vw, 18px);
+      letter-spacing:.04em;
+    }
+    .chip{
+      margin-top:6px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+      background:#0d1419; color:#baf5ea;
+      box-shadow:0 0 0 2px rgba(0,255,204,.07) inset;
+    }
+    .pulse{
+      width:8px; height:8px; border-radius:50%;
+      background:var(--accent); box-shadow:0 0 10px var(--accent), 0 0 18px var(--accent);
+      animation: beat 1.2s ease-in-out infinite;
+    }
+    .footer{
+      margin-top:20px; text-align:center; color:#95e7d7; font-size:.9rem;
+      opacity:.9;
+    }
+    @keyframes glow{
+      from{ box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 18px rgba(0,255,204,.12) inset;}
+      to{   box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 44px rgba(0,255,204,.28) inset;}
+    }
+    @keyframes beat{
+      0%,100%{transform:scale(1); opacity:.85}
+      50%{transform:scale(1.35); opacity:1}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="region" aria-label="World Clock">
+    <header>
+      <div class="brand"><span class="dot" aria-hidden="true"></span> Neon World Clock</div>
+
+      <div class="controls">
+        <label for="city">City / Time Zone</label>
+        <select id="city" aria-label="Choose city/time zone">
+          <!-- Popular selections -->
+          <option value="local" selected>Auto (Your Local Time)</option>
+          <optgroup label="Asia">
+            <option value="Asia/Kolkata">India — Kolkata</option>
+            <option value="Asia/Dubai">UAE — Dubai</option>
+            <option value="Asia/Tokyo">Japan — Tokyo</option>
+            <option value="Asia/Singapore">Singapore</option>
+          </optgroup>
+          <optgroup label="Europe">
+            <option value="Europe/London">UK — London</option>
+            <option value="Europe/Paris">France — Paris</option>
+            <option value="Europe/Berlin">Germany — Berlin</option>
+          </optgroup>
+          <optgroup label="Americas">
+            <option value="America/New_York">USA — New York</option>
+            <option value="America/Chicago">USA — Chicago</option>
+            <option value="America/Denver">USA — Denver</option>
+            <option value="America/Los_Angeles">USA — Los Angeles</option>
+            <option value="America/Sao_Paulo">Brazil — São Paulo</option>
+          </optgroup>
+          <optgroup label="Africa & Oceania">
+            <option value="Africa/Johannesburg">South Africa — Johannesburg</option>
+            <option value="Australia/Sydney">Australia — Sydney</option>
+            <option value="Pacific/Auckland">New Zealand — Auckland</option>
+          </optgroup>
+        </select>
+
+        <button id="toggle12">Toggle 12/24h</button>
+      </div>
+    </header>
+
+    <section class="clock" aria-live="polite">
+      <div class="time" id="time">--:--:--</div>
+      <div class="date" id="date">Loading date…</div>
+      <div class="chip"><span class="pulse" aria-hidden="true"></span><span class="zone" id="zone">Detecting time zone…</span></div>
+    </section>
+
+    <p class="footer">Tip: choose a city to view its local time. Updates every second.</p>
+  </main>
+
+  <script>
+    (function () {
+      const timeEl = document.getElementById('time');
+      const dateEl = document.getElementById('date');
+      const zoneEl = document.getElementById('zone');
+      const selectEl = document.getElementById('city');
+      const toggleBtn = document.getElementById('toggle12');
+
+      // state
+      let hour12 = false;
+      const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      let currentTZ = 'local';
+
+      function formatParts(date, tz) {
+        const timeFmt = new Intl.DateTimeFormat('en-GB', {
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12, timeZone: tz
+        });
+        const dateFmt = new Intl.DateTimeFormat('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+          timeZone: tz
+        });
+        const zoneFmt = new Intl.DateTimeFormat('en-GB', {
+          hour: '2-digit', timeZone: tz, timeZoneName: 'short'
+        });
+
+        const time = timeFmt.format(date);
+        const longDate = dateFmt.format(date);
+        // Extract the zone name/abbr from something like "13 BST"
+        const zoneStr = zoneFmt.formatToParts(date).find(p => p.type === 'timeZoneName')?.value || tz;
+
+        return { time, longDate, zoneStr };
+      }
+
+      function update() {
+        const now = new Date();
+        const tz = currentTZ === 'local' ? localTZ : currentTZ;
+        const { time, longDate, zoneStr } = formatParts(now, tz);
+
+        timeEl.textContent = time;
+        dateEl.textContent = longDate;
+        zoneEl.textContent = `${tz} • ${zoneStr}`;
+      }
+
+      // UI handlers
+      selectEl.addEventListener('change', () => {
+        currentTZ = selectEl.value;
+        update();
+      });
+
+      toggleBtn.addEventListener('click', () => {
+        hour12 = !hour12;
+        toggleBtn.textContent = hour12 ? 'Use 24h' : 'Use 12h';
+        update();
+      });
+
+      // Init
+      // Set default label for toggle
+      toggleBtn.textContent = 'Toggle 12/24h';
+      // If user's local zone is Asia/Kolkata, preselect Auto - still fine
+      update();
+      setInterval(update, 1000);
+    })();
+  </script>
+</body>
+</html>
